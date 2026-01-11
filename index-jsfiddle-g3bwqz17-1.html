@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle g3bwqz17</title>
+
+  <style>
+    
+  </style>
+
+  
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Schuldenuhr Deutschland 2026</title>
+    <style>
+      :root {
+          --bg-color: #0f172a;
+          --card-bg: #1e293b;
+          --accent-red: #ef4444;
+          --accent-orange: #f59e0b;
+          --text-main: #f8fafc;
+          --text-dim: #94a3b8;
+      }
+
+      body {
+          font-family: 'Inter', -apple-system, sans-serif;
+          background-color: var(--bg-color);
+          color: var(--text-main);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          margin: 0;
+          padding: 20px;
+      }
+
+      h1 {
+          font-size: 2rem;
+          margin-bottom: 0.5rem;
+          letter-spacing: -0.025em;
+      }
+
+      .date-display {
+          color: var(--accent-orange);
+          font-weight: 600;
+          margin-bottom: 2rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+      }
+
+      .clock-container {
+          background-color: var(--card-bg);
+          border: 1px solid #334155;
+          border-radius: 24px;
+          padding: 40px;
+          width: 100%;
+          max-width: 550px;
+          box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+          position: relative;
+          overflow: hidden;
+      }
+
+      /* Glass-Effect Glow */
+      .clock-container::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle, rgba(239, 68, 68, 0.05) 0%, transparent 70%);
+          pointer-events: none;
+      }
+
+      .label {
+          font-size: 0.9rem;
+          color: var(--text-dim);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 8px;
+      }
+
+      .value {
+          font-size: 3.5rem;
+          font-weight: 800;
+          color: var(--accent-red);
+          margin-bottom: 30px;
+          font-variant-numeric: tabular-nums; /* Verhindert Wackeln der Zahlen */
+          text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+      }
+
+      .per-capita-box {
+          background: rgba(15, 23, 42, 0.5);
+          padding: 20px;
+          border-radius: 16px;
+          margin-bottom: 20px;
+      }
+
+      .per-capita-value {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--text-main);
+      }
+
+      .increase-badge {
+          display: inline-block;
+          background: rgba(245, 158, 11, 0.1);
+          color: var(--accent-orange);
+          padding: 6px 16px;
+          border-radius: 99px;
+          font-size: 0.9rem;
+          font-weight: bold;
+      }
+
+      footer {
+          margin-top: 30px;
+          font-size: 0.8rem;
+          color: var(--text-dim);
+          max-width: 400px;
+          line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="date-display" id="currentDate">Datum wird geladen...</div>
+    <h1>Staatsverschuldung Live</h1>
+
+    <div class="clock-container">
+      <div class="label">Gesamtschuldenstand</div>
+      <div id="totalDebt" class="value">0 €</div>
+
+      <div class="per-capita-box">
+        <div class="label">Pro Kopf</div>
+        <div id="perCapita" class="per-capita-value">0 €</div>
+      </div>
+
+      <div class="increase-badge" id="speedTag">Lade Zuwachsrate...</div>
+    </div>
+
+    <footer>
+      Basierend auf Schätzungen für das Jahr 2026. <br />
+      Datenmodellierung erfolgt in Echtzeit auf Basis der aktuellen
+      Zuwachsraten.
+    </footer>
+
+    <script>
+      // --- KONFIGURATION 2026 ---
+      // Basis: Geschätzter Stand Anfang 2026 (Beispielwerte basierend auf Trends)
+      let debtBase = 2750000000000;
+      const population = 84400000;   // Geschätzte Einwohnerzahl
+      const increasePerSecond = 5420; // Leicht erhöhte Rate für 2026
+
+      // Datum anzeigen
+      function updateDate() {
+          const now = new Date();
+          const options = { day: '2-digit', month: 'long', year: 'numeric' };
+          document.getElementById('currentDate').textContent = now.toLocaleDateString('de-DE', options);
+      }
+
+      // Zahl schön formatieren
+      function formatMoney(num) {
+          return num.toLocaleString('de-DE', { minimumFractionDigits: 0 }) + ' €';
+      }
+
+      // Die Hauptberechnung
+      function updateClock() {
+          // Simulation des Zuwachses seit dem letzten Laden
+          debtBase += increasePerSecond;
+
+          const perCapita = Math.round(debtBase / population);
+
+          document.getElementById('totalDebt').textContent = formatMoney(debtBase);
+          document.getElementById('perCapita').textContent = formatMoney(perCapita);
+      }
+
+      // Speed-Tag setzen
+      document.getElementById('speedTag').textContent = `Zuwachs: +${increasePerSecond} € / Sekunde`;
+
+      // Start
+      updateDate();
+      updateClock();
+      setInterval(updateClock, 1000); // Jede Sekunde aktualisieren
+    </script>
+  </body>
+</html>
+
+
+  <script>
+    
+  </script>
+</body>
+</html>
